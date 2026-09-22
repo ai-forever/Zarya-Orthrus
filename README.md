@@ -34,9 +34,9 @@ training, evaluation, and benchmarking code.
 
 Training datasets are available at:
 
-- [ZaryaOrthrusDataset-0.6B](https://huggingface.co/ai-forever/ZaryaOrthrusDataset-0.6B) — instructive samples for Orthrus based
+- [ai-forever/ZaryaOrthrusDataset-0.6B](https://huggingface.co/datasets/ai-forever/ZaryaOrthrusDataset-0.6B) — instructive samples for Orthrus based
   on Qwen3-0.6B.
-- [ZaryaOrthrusDataset-1.7B](https://huggingface.co/ai-forever/ZaryaOrthrusDataset-1.7B) — instructive samples for Orthrus based
+- [ai-forever/ZaryaOrthrusDataset-1.7B](https://huggingface.co/datasets/ai-forever/ZaryaOrthrusDataset-1.7B) — instructive samples for Orthrus based
   on Qwen3-1.7B.
 
 The datasets are divided into `train` and `test` splits and are stored as JSONL
