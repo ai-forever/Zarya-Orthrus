@@ -99,6 +99,17 @@ python -m torch.distributed.run --nproc_per_node=8 train_orthrus_fused_v42.py
 
 Use `train_orthrus_fused_v40.py` instead when training the Qwen3-0.6B variant.
 
+
+## Checkpoints
+
+Models based on the Orthrus architecture, created using the datasets and training pipelines described above,
+are available on Hugging Face:
+
+[ai-forever/ZaryaOrthrus-0.6B](https://huggingface.co/ai-forever/ZaryaOrthrus-0.6B)
+
+[ai-forever/ZaryaOrthrus-1.7B](https://huggingface.co/ai-forever/ZaryaOrthrus-1.7B)
+
+
 ## Evaluation
 
 The `eval` directory contains the code used to evaluate and benchmark trained
