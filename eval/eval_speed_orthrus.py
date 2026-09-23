@@ -32,30 +32,13 @@ domain_names = sorted(domains.keys())
 
 # Чекпы для запуска замеров.
 models = [
-    # отладка
-    #"/home/inkoziev/corpora/tmp/orthrus/orthrus_exp17/checkpoint_314000/hf_ckp",
-
     # 0.6B
-    "/home/jovyan/inkoziev/ckp/orthrus/orthrus_exp17/checkpoint_432000/hf_ckp",
+    "ai-forever/ZaryaOrthrus-0.6B",
 
     # 1.7B
-    "/home/jovyan/inkoziev/ckp/orthrus/orthrus_exp18/checkpoint_328000/hf_ckp",
+    "ai-forever/ZaryaOrthrus-1.7B",
 
-    # 4B
-    #"/home/jovyan/inkoziev/ckp/orthrus/orthrus_exp20/checkpoint_154000/hf_ckp",
-
-    # 8B
-    #"/home/jovyan/inkoziev/ckp/Orthrus/orthrus-v24/checkpoint_172000/hf_ckp/",
-
-    # # "/home/jovyan/inkoziev/ckp/orthrus/orthrus_exp30/checkpoint_182000/hf_ckp",
-    # # "/home/jovyan/inkoziev/ckp/orthrus/orthrus_exp31/checkpoint_162000/hf_ckp",
-    # # "/home/jovyan/inkoziev/ckp/orthrus/orthrus_exp32/checkpoint_166000/hf_ckp",
-    # # "/home/jovyan/inkoziev/ckp/orthrus/orthrus_exp33/checkpoint_162000/hf_ckp",
-    # # "/home/jovyan/inkoziev/ckp/orthrus/orthrus_exp19/checkpoint_236000/hf_ckp",
-    # # "/home/jovyan/inkoziev/ckp/Orthrus/orthrus-v21/checkpoint_290000/hf_ckp",
-    # # "/home/jovyan/inkoziev/ckp/Orthrus/orthrus-v22/checkpoint_292000/hf_ckp",
-
-    #"chiennv/Orthrus-Qwen3-1.7B",
+    "chiennv/Orthrus-Qwen3-1.7B",
     #"chiennv/Orthrus-Qwen3-4B",
     #"chiennv/Orthrus-Qwen3-8B"
 ]
@@ -458,11 +441,11 @@ if __name__ == "__main__":
         ).eval()
         tokenizer = AutoTokenizer.from_pretrained(model_id)
 
-        model_results, lmeval_tasks = eval_orthrus_lmeval_wallclock_speed(model_name, model, tokenizer)
-        result_data2.extend(model_results)
+        #model_results, lmeval_tasks = eval_orthrus_lmeval_wallclock_speed(model_name, model, tokenizer)
+        #result_data2.extend(model_results)
 
-        model_results = eval_orthrus_wallclock_speed(model_name, model, tokenizer)
-        result_data2.extend(model_results)
+        #model_results = eval_orthrus_wallclock_speed(model_name, model, tokenizer)
+        #result_data2.extend(model_results)
 
         model_results = eval_orthrus_drafter_acceptance(model_name, model, tokenizer)
         result_data.extend(model_results)
@@ -484,10 +467,10 @@ if __name__ == "__main__":
                          "Ёмкость",
                          ] + domain_names]
 
-        # Таблица со статистикой по Tokens Per Second для тасок lm-eval-harness
-        result_table4 = [["Модель",
-                         "Ёмкость",
-                         ] + lmeval_tasks]
+        # # Таблица со статистикой по Tokens Per Second для тасок lm-eval-harness
+        # result_table4 = [["Модель",
+        #                  "Ёмкость",
+        #                  ] + lmeval_tasks]
 
         models = sorted(list(set((x[0], x[1]) for x in result_data) | set((x[0], x[1]) for x in result_data2)))
         for model, capacity in models:
@@ -508,18 +491,18 @@ if __name__ == "__main__":
                 ["{:.2f}".format(scores2[domain][0]) + "<sub>±{:.2f}</sub>".format(scores2[domain][1]) for domain in
                  domain_names])
 
-            scores3 = dict()
-            for row in result_data2:
-                if row[0] == model and row[1] == capacity:
-                    scores3[row[2]] = (row[3], row[4])
+            # scores3 = dict()
+            # for row in result_data2:
+            #     if row[0] == model and row[1] == capacity:
+            #         scores3[row[2]] = (row[3], row[4])
 
-            result_table3.append(
-                [model, "{:.1f}B".format(capacity / 1_000_000_000)] +
-                ["{:.2f}".format(scores3[domain][0]) + "<sub>±{:.2f}</sub>".format(scores3[domain][1]) for domain in domain_names])
+            # result_table3.append(
+            #     [model, "{:.1f}B".format(capacity / 1_000_000_000)] +
+            #     ["{:.2f}".format(scores3[domain][0]) + "<sub>±{:.2f}</sub>".format(scores3[domain][1]) for domain in domain_names])
 
-            result_table4.append(
-                [model, "{:.1f}B".format(capacity / 1_000_000_000)] +
-                ["{:.2f}".format(scores3[task][0]) + "<sub>±{:.2f}</sub>".format(scores3[task][1]) for task in lmeval_tasks])
+            # result_table4.append(
+            #     [model, "{:.1f}B".format(capacity / 1_000_000_000)] +
+            #     ["{:.2f}".format(scores3[task][0]) + "<sub>±{:.2f}</sub>".format(scores3[task][1]) for task in lmeval_tasks])
 
         with open("orthrus_speed_evaluation.md", "w") as f:
             f.write("## Environment\n\n")
@@ -557,11 +540,11 @@ if __name__ == "__main__":
             f.write("### Tokens Per Forward\n\n")
             f.write(terminaltables.GithubFlavoredMarkdownTable(result_table2).table + "\n\n")
 
-            f.write("### Tokens Per Second\n\n")
-            f.write(terminaltables.GithubFlavoredMarkdownTable(result_table3).table + "\n\n")
+            # f.write("### Tokens Per Second\n\n")
+            # f.write(terminaltables.GithubFlavoredMarkdownTable(result_table3).table + "\n\n")
 
-            f.write("### Tokens Per Second for lm-evaluation-harness tasks\n\n")
-            f.write(terminaltables.GithubFlavoredMarkdownTable(result_table4).table + "\n\n")
+            # f.write("### Tokens Per Second for lm-evaluation-harness tasks\n\n")
+            # f.write(terminaltables.GithubFlavoredMarkdownTable(result_table4).table + "\n\n")
 
         with open("orthrus_speed_evaluation.json", "w") as f:
             json.dump(result_data, f, indent=4, ensure_ascii=False)
@@ -572,5 +555,5 @@ if __name__ == "__main__":
     print("\nTokens Per Forward:")
     print(terminaltables.GithubFlavoredMarkdownTable(result_table2).table)
 
-    print("\nTokens Per Second:")
-    print(terminaltables.GithubFlavoredMarkdownTable(result_table3).table)
+    # print("\nTokens Per Second:")
+    # print(terminaltables.GithubFlavoredMarkdownTable(result_table3).table)
